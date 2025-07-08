@@ -30,8 +30,6 @@ export function setupServer() {
 
   app.use('/contacts', ContactsRouter);
 
-  
-
   app.use(notFoundHandler);
 
   app.use(errorHandler);
