@@ -19,29 +19,13 @@ export const updateContact = async (id, payload) => {
     id,
     payload,
     {
-      new: true,
-      includeResultMetadata: true,
-    //   name: false,
-    //   phoneNumber: false,
-    //   contactType: false,
+      new: true
     },
   );
-    // if (!updatedContact || !updatedContact.value) {
-    //   return null;
-    // }
-  return updatedContact.value;
-  // {
-  //   contact: updatedContact.value,
-  //   isNew: Boolean(updatedContact?.lastErrorObject?.upserted),
-  // };
+  return updatedContact;
 };
 
 export const deleteContact = async (id) => {
-  const deletedContact = await ContactsCollection.findOneAndDelete({
-    _id: id,
-  });
-//   if (!deletedContact || !deletedContact.value) {
-//     return null;
-//   }
+  const deletedContact = await ContactsCollection.findByIdAndDelete(id); //findOneAndDelete({_id: id});
   return deletedContact;
 };
