@@ -3,7 +3,7 @@ import {
   getAllContactsController,
   getContactByIdController,
   createContactController,
-  UpdateContactController,
+  updateContactController,
   deleteContactController,
 } from '../controllers/contacts.js';
 import {
@@ -30,7 +30,7 @@ router.patch(
   '/:contactId',
   isValidId,
   validateBody(updateContactSchema),
-  ctrlWrapper(UpdateContactController),
+  ctrlWrapper(updateContactController),
 );
 
 router.delete('/:contactId',isValidId, ctrlWrapper(deleteContactController));
