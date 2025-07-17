@@ -6,7 +6,6 @@ const parseNumber = (number, defaultValue) => {
   if (Number.isNaN(parsedNumber)) {
     return defaultValue;
   }
-
   return parsedNumber;
 };
 
