@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import dotenv from 'dotenv';
 import { getEnvVariable } from './utils/getEnvVariable.js';
 import ContactsRouter from './routers/contacts.js';
+import AuthRouter from './routers/auth.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 
@@ -27,6 +28,8 @@ export function setupServer() {
   app.get('/', (req, res) => {
     res.json({ message: 'Welcome to contacts DataBase!' });
   });
+
+  app.use('/auth', AuthRouter);
 
   app.use('/contacts', ContactsRouter);
 
