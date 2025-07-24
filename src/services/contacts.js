@@ -2,17 +2,18 @@ import { ContactsCollection } from '../models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/constants.js';
 
-export const getAllContacts = async ({
+export const getAllContacts = async (
   page = 1,
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
   filter = {},
-}) => {
+  userId,
+) => {
   const limit = perPage;
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
-  const contactsQuery = ContactsCollection.find();
+  const contactsQuery = ContactsCollection.find({ userId });
 
   if (filter.contactType) {
     contactsQuery.where('contactType').equals(filter.contactType);
@@ -27,7 +28,7 @@ export const getAllContacts = async ({
       .skip(skip)
       .limit(limit)
       .sort({ [sortBy]: sortOrder })
-      .collation({ locale: 'en', strength: 2 })  // для сортування нечутливого до регістру
+      .collation({ locale: 'en', strength: 2 }) // для сортування нечутливого до регістру
       .exec(),
   ]);
 
@@ -49,8 +50,8 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (id) => {
-  const contact = await ContactsCollection.findById(id);
+export const getContactById = async (id, userId) => {
+  const contact = await ContactsCollection.findOne({ _id: id, userId });
   return contact;
 };
 
@@ -70,7 +71,11 @@ export const updateContact = async (id, payload) => {
   return updatedContact;
 };
 
-export const deleteContact = async (id) => {
-  const deletedContact = await ContactsCollection.findByIdAndDelete(id); //findOneAndDelete({_id: id});
+export const deleteContact = async (id, userId) => {
+  // const deletedContact = await ContactsCollection.findByIdAndDelete(id); //findOneAndDelete({_id: id});
+  const deletedContact = await ContactsCollection.findOneAndDelete({
+    _id: id,
+    userId,
+  });
   return deletedContact;
 };
