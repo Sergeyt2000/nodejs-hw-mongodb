@@ -4,6 +4,9 @@ import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { SessionCollection } from '../models/session.js';
 import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/constants.js';
+import jwt from 'jsonwebtoken';
+import { getEnvVariable } from '../utils/getEnvVariable.js';
+import { sendEmail } from '../utils/sendMail.js';
 
 export const registerUser = async (payload) => {
   const user = await UserCollection.findOne({ email: payload.email });
@@ -81,4 +84,36 @@ export const logoutUser = async (sessionId) => {
   }
   await SessionCollection.deleteOne({ _id: sessionId });
   return { message: 'Successfully logged out' };
+};
+
+export const sendResetToken = async (email) => {
+  const user = await UserCollection.findOne({ email });
+  if (!user) {
+    throw new createHttpError(404, 'User not found');
+  }
+
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    getEnvVariable('JWT_SECRET'),
+    { expiresIn: '5m' },
+  );
+
+  const domain = getEnvVariable('APP_DOMAIN');
+  const resetLink = `${domain}/reset-password/${resetToken}`;
+
+  try {
+    await sendEmail({
+      to: email,
+      subject: 'Password Reset',
+      html: `<p>To reset password please visit this <a href="${resetLink}">link</a></p>`,
+    });
+  } catch {
+    throw new createHttpError(
+      500,
+      'Failed to send the email, please try again later.',
+    );
+  }
 };

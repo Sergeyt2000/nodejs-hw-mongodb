@@ -1,7 +1,10 @@
+import 'dotenv/config';
+// import dotenv from 'dotenv';
+// dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
-import dotenv from 'dotenv';
 import { getEnvVariable } from './utils/getEnvVariable.js';
 import ContactsRouter from './routers/contacts.js';
 import AuthRouter from './routers/auth.js';
@@ -9,8 +12,6 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
 
-
-dotenv.config();
 const PORT = getEnvVariable('PORT') || 3000;
 
 export function setupServer() {
