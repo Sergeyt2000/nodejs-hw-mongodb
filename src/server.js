@@ -1,6 +1,7 @@
 import 'dotenv/config';
 // import dotenv from 'dotenv';
 // dotenv.config();
+// import path from 'node:path';
 
 import express from 'express';
 import cors from 'cors';
@@ -19,6 +20,8 @@ export function setupServer() {
   app.use(express.json());
   app.use(cors());
   app.use(cookieParser());
+
+  // app.use("/photo", express.static(path.resolve('src/temp')));
 
   app.use(
     pino({

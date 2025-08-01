@@ -60,12 +60,12 @@ export const createContact = async (payload) => {
   return newContact;
 };
 
-export const updateContact = async (id, payload, userId) => {
+export const updateContact = async (id, payload, userId, filePath) => {
   // const updatedContact = await ContactsCollection.findByIdAndUpdate(
   //   id, payload, { new: true });
   const updatedContact = await ContactsCollection.findOneAndUpdate(
     { _id: id, userId },
-    payload,
+    { ...payload, photo: filePath },
     { new: true },
   );
   return updatedContact;
