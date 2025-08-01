@@ -102,7 +102,7 @@ export const sendResetToken = async (email) => {
   );
 
   const domain = getEnvVariable('APP_DOMAIN');
-  const resetLink = `${domain}/reset-password/${resetToken}`;
+  const resetLink = `${domain}/auth/reset-pwd/${resetToken}`;
 
   try {
     await sendEmail({
