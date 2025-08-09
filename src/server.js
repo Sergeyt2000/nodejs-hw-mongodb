@@ -12,6 +12,7 @@ import AuthRouter from './routers/auth.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 const PORT = getEnvVariable('PORT') || 3000;
 
@@ -28,12 +29,15 @@ export function setupServer() {
       transport: {
         target: 'pino-pretty',
       },
+      level: 'error',
     }),
   );
 
   app.get('/', (req, res) => {
     res.json({ message: 'Welcome to contacts DataBase!' });
   });
+
+  app.use('/api-docs', swaggerDocs());
 
   app.use('/auth', AuthRouter);
 

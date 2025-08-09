@@ -1,0 +1,9 @@
+tags:
+  - Auth
+summary: LogOut user
+operationId: logoutUser
+description: 'Logout user from app'
+security: []
+responses:
+  '204':
+    description: 'Successfully logged out the user'

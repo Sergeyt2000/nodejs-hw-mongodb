@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts App #<назва вашого додатку>
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: Save and manage your contacts with this application.
+    # <опис вашого додатку>
+tags:
+  # теги, що ви будете використовувати
+  - name: Contacts
+    description: Operations related to contacts
+  # - name: Users
+  #   description: Operations related to users
+  - name: Auth
+    description: Authentication operations
+servers:
+  - url: http://127.0.0.1:3000
+  - url: https://contacts-app-nqbf.onrender.com #посилання на задеплоєний сайт
+paths:
+  # тут будуть посилання на ендпоінти
+  /contacts/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts/get.yaml
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register.yaml
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout.yaml
+  /auth/send-reset-email:
+    post:
+      $ref: ../swagger/paths/auth/send-reset-email.yaml
+  /auth/reset-pwd:
+    post:
+      $ref: ../swagger/paths/auth/reset-pwd.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
